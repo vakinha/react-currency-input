@@ -131,7 +131,8 @@ class CurrencyInput extends Component {
             selectionStart = Math.min(node.selectionStart, selectionEnd);
         }
 
-        this.setSelectionRange(node, selectionStart, selectionEnd);
+        // https://github.com/jsillitoe/react-currency-input/issues/50
+        // this.setSelectionRange(node, selectionStart, selectionEnd);
     }
 
 
@@ -183,7 +184,8 @@ class CurrencyInput extends Component {
             selectionStart = selectionEnd;
         }
 
-        this.setSelectionRange(node, selectionStart, selectionEnd);
+        // https://github.com/jsillitoe/react-currency-input/issues/50
+        // this.setSelectionRange(node, selectionStart, selectionEnd);
         this.inputSelectionStart = selectionStart;
         this.inputSelectionEnd = selectionEnd;
     }
