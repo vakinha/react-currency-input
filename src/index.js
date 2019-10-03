@@ -120,17 +120,13 @@ class CurrencyInput extends Component {
      */
     componentDidMount(){
         let node = ReactDOM.findDOMNode(this.theInput);
-        let selectionStart, selectionEnd;
 
         if (this.props.autoFocus) {
             this.theInput.focus();
-            selectionEnd = this.state.maskedValue.length - this.props.suffix.length;
-            selectionStart = selectionEnd;
-        } else {
-            selectionEnd = Math.min(node.selectionEnd, this.theInput.value.length - this.props.suffix.length);
-            selectionStart = Math.min(node.selectionStart, selectionEnd);
         }
 
+        const selectionEnd = this.theInput.value.length - this.props.suffix.length;
+        const selectionStart = selectionEnd;
         this.setSelectionRange(node, selectionStart, selectionEnd);
     }
 
@@ -179,8 +175,8 @@ class CurrencyInput extends Component {
 
         // if (this.state.maskedValue.length == baselength){
             // if we are already at base length, position the cursor at the end.
-            // selectionEnd = this.theInput.value.length - this.props.suffix.length;
-            // selectionStart = selectionEnd;
+            selectionEnd = this.theInput.value.length - this.props.suffix.length;
+            selectionStart = selectionEnd;
         // }
 
         this.setSelectionRange(node, selectionStart, selectionEnd);
