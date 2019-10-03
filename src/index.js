@@ -88,13 +88,13 @@ class CurrencyInput extends Component {
         }
 
         const { maskedValue, value } = mask(
-            initialValue,
-            props.precision,
-            props.decimalSeparator,
-            props.thousandSeparator,
-            props.allowNegative,
-            props.prefix,
-            props.suffix
+          initialValue,
+          props.precision,
+          props.decimalSeparator,
+          props.thousandSeparator,
+          props.allowNegative,
+          props.prefix,
+          props.suffix
         );
 
         return { maskedValue, value, customProps };
@@ -120,19 +120,14 @@ class CurrencyInput extends Component {
      */
     componentDidMount(){
         let node = ReactDOM.findDOMNode(this.theInput);
-        let selectionStart, selectionEnd;
 
         if (this.props.autoFocus) {
             this.theInput.focus();
-            selectionEnd = this.state.maskedValue.length - this.props.suffix.length;
-            selectionStart = selectionEnd;
-        } else {
-            selectionEnd = Math.min(node.selectionEnd, this.theInput.value.length - this.props.suffix.length);
-            selectionStart = Math.min(node.selectionStart, selectionEnd);
         }
 
-        // https://github.com/jsillitoe/react-currency-input/issues/50
-        // this.setSelectionRange(node, selectionStart, selectionEnd);
+        const selectionEnd = this.theInput.value.length - this.props.suffix.length;
+        const selectionStart = selectionEnd;
+        this.setSelectionRange(node, selectionStart, selectionEnd);
     }
 
 
@@ -173,19 +168,18 @@ class CurrencyInput extends Component {
         const precision = Number(this.props.precision);
 
         let baselength = this.props.suffix.length
-            + this.props.prefix.length
-            + (precision > 0 ? decimalSeparator.length : 0) // if precision is 0 there will be no decimal part
-            + precision
-            + 1; // This is to account for the default '0' value that comes before the decimal separator
+          + this.props.prefix.length
+          + (precision > 0 ? decimalSeparator.length : 0) // if precision is 0 there will be no decimal part
+          + precision
+          + 1; // This is to account for the default '0' value that comes before the decimal separator
 
-        if (this.state.maskedValue.length == baselength){
-            // if we are already at base length, position the cursor at the end.
-            selectionEnd = this.theInput.value.length - this.props.suffix.length;
-            selectionStart = selectionEnd;
-        }
+        // if (this.state.maskedValue.length == baselength){
+        // if we are already at base length, position the cursor at the end.
+        selectionEnd = this.theInput.value.length - this.props.suffix.length;
+        selectionStart = selectionEnd;
+        // }
 
-        // https://github.com/jsillitoe/react-currency-input/issues/50
-        // this.setSelectionRange(node, selectionStart, selectionEnd);
+        this.setSelectionRange(node, selectionStart, selectionEnd);
         this.inputSelectionStart = selectionStart;
         this.inputSelectionEnd = selectionEnd;
     }
@@ -197,9 +191,9 @@ class CurrencyInput extends Component {
      * @param end number
      */
     setSelectionRange(node, start, end) {
-      if (document.activeElement === node) {
-        node.setSelectionRange(start, end);
-      }
+        if (document.activeElement === node) {
+            node.setSelectionRange(start, end);
+        }
     }
 
 
@@ -210,13 +204,13 @@ class CurrencyInput extends Component {
     handleChange(event) {
         event.preventDefault();
         let { maskedValue, value } = mask(
-            event.target.value,
-            this.props.precision,
-            this.props.decimalSeparator,
-            this.props.thousandSeparator,
-            this.props.allowNegative,
-            this.props.prefix,
-            this.props.suffix
+          event.target.value,
+          this.props.precision,
+          this.props.decimalSeparator,
+          this.props.thousandSeparator,
+          this.props.allowNegative,
+          this.props.prefix,
+          this.props.suffix
         );
 
         event.persist();  // fixes issue #23
@@ -236,10 +230,14 @@ class CurrencyInput extends Component {
         if (!this.theInput) return;
 
         //Whenever we receive focus check to see if the position is before the suffix, if not, move it.
-        let selectionEnd = this.theInput.value.length - this.props.suffix.length;
+        // let selectionEnd = this.theInput.value.length - this.props.suffix.length;
         let isNegative = (this.theInput.value.match(/-/g) || []).length % 2 === 1;
-        let selectionStart = this.props.prefix.length + (isNegative ? 1 : 0);
-        this.props.selectAllOnFocus && event.target.setSelectionRange(selectionStart, selectionEnd);
+        // let selectionStart = this.props.prefix.length + (isNegative ? 1 : 0);
+        const selectionEnd = this.theInput.value.length - this.props.suffix.length;
+        const selectionStart = selectionEnd;
+        // this.props.selectAllOnFocus
+        let node = ReactDOM.findDOMNode(this.theInput);
+        this.setSelectionRange(node, selectionStart, selectionEnd);
         this.inputSelectionStart = selectionStart;
         this.inputSelectionEnd = selectionEnd;
     }
@@ -258,15 +256,16 @@ class CurrencyInput extends Component {
      */
     render() {
         return (
-            <input
-                ref={(input) => { this.theInput = input; }}
-                type={this.props.inputType}
-                value={this.state.maskedValue}
-                onChange={this.handleChange}
-                onFocus={this.handleFocus}
-                onMouseUp={this.handleFocus}
-                {...this.state.customProps}
-            />
+          <input
+            ref={(input) => { this.theInput = input; }}
+            type={this.props.inputType}
+            value={this.state.maskedValue}
+            onChange={this.handleChange}
+            onFocus={this.handleFocus}
+            onMouseUp={this.handleFocus}
+            onKeyUp={this.handleFocus}
+            {...this.state.customProps}
+          />
         )
     }
 }
