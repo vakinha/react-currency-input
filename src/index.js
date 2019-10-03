@@ -179,8 +179,8 @@ class CurrencyInput extends Component {
 
         // if (this.state.maskedValue.length == baselength){
             // if we are already at base length, position the cursor at the end.
-            selectionEnd = this.theInput.value.length - this.props.suffix.length;
-            selectionStart = selectionEnd;
+            // selectionEnd = this.theInput.value.length - this.props.suffix.length;
+            // selectionStart = selectionEnd;
         // }
 
         this.setSelectionRange(node, selectionStart, selectionEnd);
@@ -239,8 +239,6 @@ class CurrencyInput extends Component {
         // let selectionStart = this.props.prefix.length + (isNegative ? 1 : 0);
         const selectionEnd = this.theInput.value.length - this.props.suffix.length;
         const selectionStart = selectionEnd;
-        console.log(selectionStart);
-        console.log(selectionEnd);
         // this.props.selectAllOnFocus
         let node = ReactDOM.findDOMNode(this.theInput);
         this.setSelectionRange(node, selectionStart, selectionEnd);
